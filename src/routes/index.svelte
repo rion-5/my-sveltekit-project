@@ -2,7 +2,7 @@
     import type { Load } from '@sveltejs/kit';
 
     export const load: Load = async ({ fetch }) => {
-        const res = await fetch('/api');
+        const res = await fetch('/todos');
         const { todos } = await res.json();
         return { props: { todos } };
     }
@@ -15,7 +15,7 @@
 
     async function addTodo() {
         if (newTodo.trim()) {
-            const res = await fetch("/api", {
+            const res = await fetch("/todos", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title: newTodo }),
@@ -32,7 +32,7 @@
         completed: boolean;
     }) {
         const updatedTodo = { ...todo, completed: !todo.completed };
-        const res = await fetch("/api", {
+        const res = await fetch("/todos", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedTodo),
@@ -42,7 +42,7 @@
     }
 
     async function deleteTodo(id: number) {
-        await fetch("/api", {
+        await fetch("/todos", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id }),
